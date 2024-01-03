@@ -1,7 +1,7 @@
 #include "arduinoFFT.h"
 
-#define SAMPLES 256             // SAMPLES-pt FFT. Must be a base 2 number. Max 128 for Arduino Uno.
-#define SAMPLING_FREQUENCY 2048 // Ts = Based on Nyquist, must be 2 times the highest expected frequency.
+#define SAMPLES 256              // SAMPLES-pt FFT. Must be a base 2 number. Max 128 for Arduino Uno.
+#define SAMPLING_FREQUENCY 24576 // Ts = Based on Nyquist, must be 2 times the highest expected frequency.
 #define log2(x) log(x) / log(2)
 
 arduinoFFT FFT = arduinoFFT();
