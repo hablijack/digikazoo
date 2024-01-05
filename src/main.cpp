@@ -4,14 +4,13 @@
 #define SAMPLES 512              // SAMPLES-pt FFT. Must be a base 2 number. Max 128 for Arduino Uno.
 #define SAMPLING_FREQUENCY 24000 // Ts = Based on Nyquist, must be 2 times the highest expected frequency.
 #define log2(x) log(x) / log(2)
+#define THRESHOLD 0
 
 unsigned int samplingPeriod;
 unsigned long microSeconds;
-
-int vReal[SAMPLES]; // create vector of size SAMPLES to hold real values
-
 unsigned long power;
 
+int vReal[SAMPLES]; // create vector of size SAMPLES to hold real values
 String notes[] = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 
 void setup()
@@ -37,16 +36,12 @@ void loop()
     }
   }
 
-  unsigned long threshold = 0;
-
-  /*Find peak frequency and print peak*/
-  float peak = Approx_FFT(vReal, SAMPLES, SAMPLING_FREQUENCY);
-  int midi_num = round(12.0 * log2(peak / 440.0) + 69.0);
-
-  if (power >= threshold)
+  if (power >= THRESHOLD)
   {
+    /*Find peak frequency and print peak*/
+    float peak = Approx_FFT(vReal, SAMPLES, SAMPLING_FREQUENCY);
+    int midi_num = round(12.0 * log2(peak / 440.0) + 69.0);
     Serial.println(notes[midi_num % 12]); // Print out the most dominant frequency.
     Serial.println(String(power) + ": power value.");
   }
-  delay(500);
 }
